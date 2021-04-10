@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/loginCard"
+    app:cardCornerRadius="20dp"
+    android:elevation="5dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
+    android:background="@color/whiteCardColor">
+
+    <LinearLayout
+        style="@style/linearParent"
+        android:layout_gravity="center"
+        android:padding="20dp">
+
+        <TextView
+            style="@style/headerTextPrimary"
+            android:text="Giriş Yap"
+            android:layout_marginTop="20dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_login_textInputEmail"
+            style="@style/EditTextGenel"
+            android:layout_marginTop="20dp">
+
+            <EditText
+                android:id="@+id/layout_login_editTextEmail"
+                style="@style/modifiedEditTxt"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:hint="Email"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_login_textInputPassword"
+            style="@style/EditTextGenel"
+            android:layout_marginTop="20dp">
+
+            <EditText
+                android:id="@+id/layout_login_editTextPassword"
+                style="@style/modifiedEditTxt"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:hint="Şifre"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <CheckBox
+                style="@style/parent"
+                android:text="Beni Hatırla"
+                android:textColor="@color/primaryTextColor"
+                android:buttonTint="@color/CheckboxChecked"
+                android:id="@+id/layout_login_ChckRememberMe"/>
+
+
+
+        <Button
+            android:id="@+id/layout_login_buttonGirisYap"
+            style="@style/loginButton"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:onClick="btnGirisYap"
+            android:text="Giriş Yap"
+            app:backgroundTint="@android:color/transparent"
+            app:backgroundTintMode="screen" />
+
+        <TextView
+            style="@style/viewParent"
+            android:text="Şifrenizi mi unuttunuz ?"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="12sp"
+            android:layout_gravity="center_horizontal"
+            android:onClick="viewForgotPassword"
+            android:layout_marginTop="20dp"
+            />
+
+        <TextView
+            style="@style/parent"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textColor="@color/primaryTextColor"
+            android:text="Hesabınız yok mu? Kayıt Ol"
+            android:id="@+id/layout_login_SignUp"
+            android:onClick="viewLoginPage"
+            android:layout_marginTop="20dp"/>
+
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
