@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="300dp"
+    android:layout_height="300dp"
+    app:cardCornerRadius="20dp"
+    android:elevation="5dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
+    android:background="@color/whiteCardColor">
+
+    <LinearLayout
+    style="@style/linearParent"
+    android:layout_gravity="center"
+    android:padding="20dp">
+        <TextView
+            style="@style/headerTextPrimary"
+            android:text="Şifre Sıfırla"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextGenel"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                style="@style/modifiedEditTxt"
+                android:id="@+id/layout_sifre_sifirla_EditTxtMail"
+                android:hint="E-mail Adresi"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@color/black" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <Button
+            android:layout_marginTop="5dp"
+            android:id="@+id/layout_sifre_sifirla_ButtonSifreSifirla"
+            style="@style/loginButton"
+            android:layout_gravity="center"
+            android:background="@drawable/login_button_bk"
+            android:text="Sıfırla"
+            android:onClick="btnSifreSifirla"
+            app:backgroundTint="@android:color/transparent"
+            app:backgroundTintMode="screen" />
+
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/login_button_bk"
+            android:id="@+id/sifre_sifirla_SifreDialogKapat"
+            android:src="@android:drawable/ic_menu_close_clear_cancel" />
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

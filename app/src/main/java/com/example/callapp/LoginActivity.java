@@ -1,13 +1,24 @@
+/*  DENİZHAN SARAÇ
+*   dnzhn.src@outlook.com
+*   Computer Engineer at BİLECİK ŞEYH EDEBALİ UNIVERSITY
+*   CALL APP FOR THEASIS
+*   ALL RIGHTS RESERVED
+*   11.04.2021 17:02
+*   GITHUB:  https://github.com/DenizhanSarac/CallApp*/
+
 package com.example.callapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -18,12 +29,14 @@ import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText etxtEmail,etxtPassword;
+    private EditText etxtEmail,etxtPassword,etxtsifreSifirlaMail;
     private CheckBox beniHatirla;
     private String eMail,Pass,getEmail;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
+    private Button  sifreSifirlaBtn;
     private boolean check;
+    private Dialog resetPassDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,5 +164,62 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
+    public void viewForgotPassword(View view)
+    {
+        showResetPassDialog();
+    }
+
+    //Ekrana Custom Dialog getirmek için kullanılan ve sifre sıfırlayan programcık.
+    public void showResetPassDialog()
+    {
+        //Dialog oluşturuluyor.
+        resetPassDialog=new Dialog(this);
+        WindowManager.LayoutParams params=new WindowManager.LayoutParams();
+        params.copyFrom(resetPassDialog.getWindow().getAttributes());
+        params.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        params.height=WindowManager.LayoutParams.WRAP_CONTENT;
+        resetPassDialog.setCancelable(false);
+        resetPassDialog.setContentView(R.layout.layout_sifre_yenile);
+        //Dialog oluşturuldu.
+
+        //Veriler çekiliyor.
+        ImageView imgSifreCikis=(ImageView)resetPassDialog.findViewById(R.id.sifre_sifirla_SifreDialogKapat);
+        sifreSifirlaBtn=(Button)resetPassDialog.findViewById(R.id.layout_sifre_sifirla_ButtonSifreSifirla);
+        etxtsifreSifirlaMail=(EditText)resetPassDialog.findViewById(R.id.layout_sifre_sifirla_EditTxtMail);
+        //Veriler Çekildi.
+
+        //Dialogda bulunan kapatma ImageView yakalanma olayı.
+        imgSifreCikis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetPassDialog.dismiss();
+            }
+        });
+
+
+        //Sifre Gönderme olayı başlıyor.
+        sifreSifirlaBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!TextUtils.isEmpty(etxtsifreSifirlaMail.getText().toString()))
+                {
+                    /* Sifre Sıfırlama Kodları buraya Eklenecek. */
+                    Toast.makeText(getApplicationContext(),"Şifre Sıfırlama Gönderildi",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        //Şifre gönderme olayı bitiyor.
+
+        //Dialog ekrana getiriyor.
+        resetPassDialog.getWindow().setAttributes(params);
+        resetPassDialog.show();
+        //Dialog ekrana verildi.
+
+
+    }
+
+
+
 
 }

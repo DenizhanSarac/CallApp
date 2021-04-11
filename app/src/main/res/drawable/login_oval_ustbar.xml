@@ -4,13 +4,10 @@
         android:bottomLeftRadius="27dp"
         android:bottomRightRadius="27dp"
         android:topLeftRadius="0dp"
-        android:topRightRadius="0dp"
-        />
+        android:topRightRadius="0dp" />
     <solid
-        android:color="#00a5ff"
-        />
+        android:color="#00a5ff" />
     <size
         android:width="182dp"
-        android:height="54dp"
-        />
+        android:height="54dp" />
 </shape>
