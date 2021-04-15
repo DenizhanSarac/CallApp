@@ -20,4 +20,7 @@
     <!-- Giriş Bölümü -->
     <color name="loginBkColor">#f0f0f0</color>
 
+    <!-- Resim Seç Bölümü -->
+    <color name="addNewPhoto">#7E7E7E</color>
+
 </resources>

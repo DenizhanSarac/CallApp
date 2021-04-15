@@ -73,10 +73,24 @@
 
     </style>
 
+    <!-- Giriş yap Sayfası -->
     <style name="loginParent" parent="parent">
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@color/loginBkColor</item>
         <item name="android:focusableInTouchMode">true</item>
     </style>
+    <!-- Anasayfa Sayfası -->
+    <style name="mainParent" parent="parent">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/loginBkColor</item>
+        <item name="android:focusableInTouchMode">true</item>
+    </style>
+    <style name="addaphoto" parent="parent">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">#717171</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
 
 </resources>
