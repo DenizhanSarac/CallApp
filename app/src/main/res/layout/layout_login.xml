@@ -85,7 +85,7 @@
             android:textColor="@color/primaryTextColor"
             android:text="Hesabınız yok mu? Kayıt Ol"
             android:id="@+id/layout_login_SignUp"
-            android:onClick="viewLoginPage"
+            android:onClick="viewRegisterPage"
             android:layout_marginTop="20dp"/>
 
 

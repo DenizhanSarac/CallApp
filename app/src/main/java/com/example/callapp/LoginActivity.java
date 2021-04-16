@@ -14,6 +14,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.media.Image;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -29,24 +31,37 @@ import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
 
+
+
+    //Giriş yap değişkenleri
     private EditText etxtEmail,etxtPassword,etxtsifreSifirlaMail;
     private CheckBox beniHatirla;
     private String eMail,Pass,getEmail;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
+    //Şifre Sıfırlama değişkenleri
     private Button  sifreSifirlaBtn;
     private boolean check;
     private Dialog resetPassDialog;
+
+    //Çıkış Butonu değişkeni
+    private ImageView imgCikis;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         //Beni hatırla bölümü çalışması için mail-şifre-checkbox burada bağlandı.
         etxtEmail=(EditText)findViewById(R.id.layout_login_editTextEmail);
         etxtPassword = (EditText) findViewById(R.id.layout_login_editTextPassword);
         beniHatirla=(CheckBox)findViewById(R.id.layout_login_ChckRememberMe);
+
+        //Çıkış simgesi burada bağlandı.
+        imgCikis=(ImageView)findViewById(R.id.activity_login_CloseApp);
 
         //Beni hatırla için kaydedilen bilgiler bellekten çekiliyor.
         preferences=this.getSharedPreferences("com.example.callapp", Context.MODE_PRIVATE);
@@ -60,115 +75,55 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     //Giriş yap butonu kodlaması.
-    public void btnGirisYap(View v)
-    {
-        switch (v.getId())
-        {
-            //Giriş Yap butonu bölümü:
-            case R.id.layout_login_buttonGirisYap:
-                System.out.println("Giriş");
+    public void btnGirisYap(View v) {
+
                 //TRY-CATCH ile hatalar yakalanmaya çalışıyor.
-                try{
-                    eMail=etxtEmail.getText().toString();
-                    Pass= etxtPassword.getText().toString();
+                try {
+                    eMail = etxtEmail.getText().toString();
+                    Pass = etxtPassword.getText().toString();
                     //Email ve şifre bölümleri boş bırakılamaz olayı koşullanıyor.
-                    if(!TextUtils.isEmpty(eMail) && !TextUtils.isEmpty(Pass))
-                    {
-                        //Giriş kontrol kodları buraya eklenecek. //
+                    if (!TextUtils.isEmpty(eMail) && !TextUtils.isEmpty(Pass)) {
 
-                        /* **************
+                        //SQL KOMUTLARI EKLENECEK YER
 
-
-                         */
-
-                        if(beniHatirla.isChecked())
-                        {
+                        if (beniHatirla.isChecked()) {
                             //Dahili belleğe bilgiler kaydediliyor.
-                            editor=preferences.edit();
-                            editor.putString("email",eMail);
-                            editor.putBoolean("checkbox",true);
+                            editor = preferences.edit();
+                            editor.putString("email", eMail);
+                            editor.putBoolean("checkbox", true);
                             editor.apply();
-                        }
-                        else
-                        {
+                        } else {
                             //Dahili belleğe checkbox seçili olmadığı için veri boş giriliyor.
-                            editor=preferences.edit();
-                            editor.putString("email",null);
-                            editor.putBoolean("checkbox",false);
+                            editor = preferences.edit();
+                            editor.putString("email", null);
+                            editor.putBoolean("checkbox", false);
                             editor.apply();
                         }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Email veya Şifre Boş olamaz", Toast.LENGTH_SHORT).show();
                     }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(),"Email veya Şifre Boş olamaz",Toast.LENGTH_SHORT).show();
-                    }
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-                break;
-
-            //Kayıt olma bölümü yakalaması.
-            case R.id.layout_register_ButtonUyeOl:
-                System.out.println("Üyelik");
-                Toast.makeText(getApplicationContext(),"Boş",Toast.LENGTH_SHORT).show();
-                break;
-
-            default:
-                break;
-        }
 
     }
+
+
 
     //Login Activity'de sol üstte bulunan çarpı(Çıkış) simgesi için çıkış kodlaması.
     public void imgCikisIcon(View view)
     {
-        ImageView imgCikis;
-        imgCikis=(ImageView)findViewById(R.id.activity_login_CloseApp);
-
-        imgCikis.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onDestroy();
-            }
-        });
+        finish();
+        System.exit(0);
     }
 
 
-    //Register ve Login layoutları arasında geçişi sağlayan kodlama bölümü.
-    public void viewLoginPage(View view)
-    {
-        TextView txtLogin=(TextView)findViewById(R.id.layout_register_SignIn);
-        TextView txtRegister=(TextView)findViewById(R.id.layout_login_SignUp);
-
-        View includedLogin = findViewById(R.id.activity_login_LoginPage);
-        View includedRegister = findViewById(R.id.activity_login_RegisterPage);
-
-        //Bu bölümde hesabı olmayan kişilerin kaydolması için Register penceresine geçmesi sağlanır.
-        txtRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                includedRegister.setVisibility(view.VISIBLE);
-                includedLogin.setVisibility(view.GONE);
-            }
-        });
-
-        //Bu bölümde hesabı olan kişilerin giriş yapması için login penceresine geçmesi sağlanır.
-        txtLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                includedRegister.setVisibility(view.GONE);
-                includedLogin.setVisibility(view.VISIBLE);
-            }
-        });
-
-    }
-
+    //Şifremi unuttum bölümü için ekrana şifremi unuttum bölümü ekrana getiriliyor.
     public void viewForgotPassword(View view)
     {
         showResetPassDialog();
     }
+
 
     //Ekrana Custom Dialog getirmek için kullanılan ve sifre sıfırlayan programcık.
     public void showResetPassDialog()
@@ -215,8 +170,14 @@ public class LoginActivity extends AppCompatActivity {
         resetPassDialog.getWindow().setAttributes(params);
         resetPassDialog.show();
         //Dialog ekrana verildi.
+    }
 
 
+    //Register ve Login layoutları arasında geçişi sağlayan kodlama bölümü.
+    public void viewRegisterPage(View view)
+    {
+        Intent intent=new Intent(getApplicationContext(),RegisterActivity.class);
+        startActivity(intent);
     }
 
 
