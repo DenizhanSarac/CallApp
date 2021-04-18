@@ -17,7 +17,7 @@ public class RegisterActivity extends AppCompatActivity {
     //Üye ol değişkenleri
     private EditText edtAd,edtTel,edteMail,edtSifre;
     private String yeniuye_Ad,yeniuye_telNo,yeniuye_Email,yeniuye_Sifre;
-    private boolean uyeMi=false;
+    DataBaseHelper dataBaseHelper;
     private ImageView imgCikis;
 
     //Bağlantı noktaları.
@@ -63,6 +63,8 @@ public class RegisterActivity extends AppCompatActivity {
     //Kayıt ol butonuna basıldığında çalışmayan başlayan kayıt edici kod bölümüdür.
     public void btnKayitOl(View view)
     {
+        try{
+
         yeniuye_Ad=edtAd.getText().toString();
         yeniuye_telNo=edtTel.getText().toString();
         yeniuye_Email=edteMail.getText().toString();
@@ -74,28 +76,38 @@ public class RegisterActivity extends AppCompatActivity {
                 if(!TextUtils.isEmpty(yeniuye_Email)){
 
                     if (!TextUtils.isEmpty(yeniuye_Sifre)&&yeniuye_Sifre.length()>=8){
+                        dataBaseHelper=new DataBaseHelper(this);
 
-                       /* try{
-                            SQLiteDatabase database=this.openOrCreateDatabase("CallApp",MODE_PRIVATE,null);
-                            database.execSQL("CREATE TABLE IF NOT EXISTS uyeler(id INTEGER PRIMARY KEY,uyeAdi VARCHAR,uyeTel VARCHAR,uyeMail VARCHAR,uyeSifre VARCHAR,uyeResim BLOB)");
+                        boolean success=true;
+                        YeniUyeDetay yeniUyeDetay;
 
-                            String sqlQuery="INSERT INTO uyeler(uyeAdi,uyeTel,uyeMail,uyeSifre) VALUES(?,?,?,?)";
-                            SQLiteStatement statement=database.compileStatement(sqlQuery);
-                            statement.bindString(1,yeniuye_Ad);
-                            statement.bindString(2,yeniuye_telNo);
-                            statement.bindString(3,yeniuye_Email);
-                            statement.bindString(4,yeniuye_Sifre);
-                            statement.execute();
+                        boolean checkMail = dataBaseHelper.checkMail(yeniuye_Email);
 
-                            nesneleriTemizle();
-                            showToast("Kayıt başarıyla tamamlandı.");
-                            Intent intent=new Intent(getApplicationContext(),addImageActivity.class);
-                            intent.putExtra("uyeMail",yeniuye_Email);
-                            startActivity(intent);
+                        if(checkMail == false)
+                        {
+                            try{
+                                yeniUyeDetay=new YeniUyeDetay(1,yeniuye_Ad,yeniuye_telNo,yeniuye_Email,yeniuye_Sifre,null);
+                                success = dataBaseHelper.addOne(yeniUyeDetay);
 
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }*/
+                                Intent intent=new Intent(getApplicationContext(),addImageActivity.class);
+                                intent.putExtra("email",yeniuye_Email);
+                                startActivity(intent);
+                            }catch (Exception e)
+                            {
+
+                                e.printStackTrace();
+                            }
+                        }else{
+                            showToast("Bu mail adresi mevcut.");
+                        }
+
+
+                        if(success == true){
+                            showToast("İşlem Başarılı.");
+                        }else
+                        {
+                            showToast("İşlem Başarısız.");
+                        }
 
 
                     }else
@@ -107,6 +119,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         }else
             showToast("Ad bölümü boş bırakılamaz.");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 

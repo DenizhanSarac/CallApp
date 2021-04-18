@@ -47,6 +47,10 @@ public class LoginActivity extends AppCompatActivity {
     //Çıkış Butonu değişkeni
     private ImageView imgCikis;
 
+    //Veritabanı bağlanıyor.
+
+    private DataBaseHelper dataBaseHelper;
+
 
 
     @Override
@@ -84,7 +88,19 @@ public class LoginActivity extends AppCompatActivity {
                     //Email ve şifre bölümleri boş bırakılamaz olayı koşullanıyor.
                     if (!TextUtils.isEmpty(eMail) && !TextUtils.isEmpty(Pass)) {
 
-                        //SQL KOMUTLARI EKLENECEK YER
+                        //SQL Komutları burada başlıyor.
+                        dataBaseHelper=new DataBaseHelper(LoginActivity.this);
+                        boolean check=dataBaseHelper.checkMailPass(eMail,Pass);
+                        if(check==true)
+                        {
+                            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                            startActivity(intent);
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(),"Mail veya Şifre Hatalı",Toast.LENGTH_SHORT).show();
+                        }
+
 
                         if (beniHatirla.isChecked()) {
                             //Dahili belleğe bilgiler kaydediliyor.

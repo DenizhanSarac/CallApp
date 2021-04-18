@@ -3,13 +3,33 @@ package com.example.callapp;
 import android.graphics.Bitmap;
 
 public class YeniUyeDetay {
+    private int id;
     private String Ad,telNo,eMail,Sifre;
+    private byte[] Resim;
 
-    public YeniUyeDetay(String ad, String telNo, String eMail, String sifre) {
+    public YeniUyeDetay(int id,String ad, String telNo, String eMail, String sifre,byte[] Resim) {
+        this.id=id;
         Ad = ad;
         this.telNo = telNo;
         this.eMail = eMail;
         Sifre = sifre;
+        this.Resim=Resim;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public byte[] getResim() {
+        return Resim;
+    }
+
+    public void setResim(byte[] resim) {
+        Resim = resim;
     }
 
     public String getAd() {

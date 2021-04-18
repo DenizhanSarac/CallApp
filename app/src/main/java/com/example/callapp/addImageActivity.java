@@ -2,6 +2,7 @@ package com.example.callapp;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.graphics.drawable.DrawerArrowDrawable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -44,7 +45,7 @@ public class addImageActivity extends AppCompatActivity {
         init();
 
         Intent intent=getIntent();
-        gelenMail=intent.getStringExtra("uyeMail");
+        gelenMail=intent.getStringExtra("email");
     }
 
     public void profilResmiSec(View view)
@@ -54,23 +55,22 @@ public class addImageActivity extends AppCompatActivity {
         kucultulenResim.compress(Bitmap.CompressFormat.PNG,75,outputStream);
         byte[] kayitEdilecekResim=outputStream.toByteArray();
 
-       /* try{
-            SQLiteDatabase database=this.openOrCreateDatabase("CallApp",MODE_PRIVATE,null);
+       try{
 
-            String sqlQuery="UPDATE uyeler SET uyeResim=? where uyeMail= ?";
-            SQLiteStatement statement=database.compileStatement(sqlQuery);
-            statement.bindBlob(1,kayitEdilecekResim);
-            statement.bindString(2,gelenMail);
-            statement.execute();
+           DataBaseHelper dataBaseHelper=new DataBaseHelper(this);
+           dataBaseHelper.resimEkle(kayitEdilecekResim,gelenMail);
+           /*defaultImage= BitmapFactory.decodeResource(this.getResources(),R.drawable.pickimage);
+           imgProfilResmi.setImageBitmap(defaultImage);*/
 
-            defaultImage= BitmapFactory.decodeResource(this.getResources(),R.drawable.pickimage);
-            imgProfilResmi.setImageBitmap(defaultImage);
-            Toast.makeText(getApplicationContext(),"Profil resmi Eklendi",Toast.LENGTH_SHORT).show();
+           Toast.makeText(getApplicationContext(),"Profil resmi Eklendi",Toast.LENGTH_SHORT).show();
+           Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+           intent.putExtra("kullanici",gelenMail);
+           startActivity(intent);
 
         }catch (Exception e)
         {
             e.printStackTrace();
-        }*/
+        }
     }
 
 
@@ -126,9 +126,7 @@ public class addImageActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent geriIntent=new Intent(this,MainActivity.class);
-        finish();
-        startActivity(geriIntent);
+        //Kullanıcının kayıt ol sayfasına dönüşü engellenmiştir.
     }
 
 }
