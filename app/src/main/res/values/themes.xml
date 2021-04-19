@@ -92,5 +92,9 @@
         <item name="android:textStyle">italic</item>
     </style>
 
+    <style name="botoombar_textchange">
+        <item name="android:textSize">13dp</item>
+    </style>
+
 
 </resources>
