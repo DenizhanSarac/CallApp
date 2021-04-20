@@ -1,12 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    style="@style/mainParent">
+    style="@style/mainParent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+<TextView
+    android:id="@+id/fragment_contact_KisilerYazisi"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Kişiler"
+    android:textStyle="bold"
+    android:textColor="@color/black"
+    android:textSize="24sp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="20dp"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/fragment_contact_kisisay"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:text="Kişiler"
-        android:layout_centerInParent="true"/>
-</RelativeLayout>
+        android:text="Sayı Kişi"
+        android:textSize="12sp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_marginTop="50dp"
+        android:id="@+id/fragment_contact_recyclerView"
+        android:clickable="true"
+        android:layout_height="match_parent"
+        />
+
+</LinearLayout>

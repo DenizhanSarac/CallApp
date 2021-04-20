@@ -6,7 +6,7 @@
 *   11.04.2021 17:02
 *   GITHUB:  https://github.com/DenizhanSarac/CallApp*/
 
-package com.example.callapp;
+package Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,9 +14,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
-import android.media.Image;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -25,9 +22,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TableLayout;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import Database.DataBaseHelper;
+import com.example.callapp.R;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -94,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                         if(check==true)
                         {
                             Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                            intent.putExtra("kullaniciMail",eMail);
                             startActivity(intent);
                         }
                         else

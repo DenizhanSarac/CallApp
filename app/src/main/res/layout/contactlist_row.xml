@@ -1,0 +1,65 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/contact_select_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/fragment_contact_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textColor="#5A5A5A"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            />
+
+        <ImageView
+            android:id="@+id/fragment_contact_message"
+            android:layout_width="16dp"
+            android:clickable="true"
+            android:layout_height="16dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="12dp"
+            app:srcCompat="@drawable/sendmessage" />
+
+        <ImageView
+            android:id="@+id/fragment_contact_call"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:clickable="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="12dp"
+            app:srcCompat="@drawable/call" />
+
+        <TextView
+            android:id="@+id/fragment_contact_number"
+            android:layout_below="@+id/fragment_contact_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Phone no."
+            android:textColor="#BABABA"
+            android:textSize="14sp" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#FFFFFF"/>
+
+
+</LinearLayout>

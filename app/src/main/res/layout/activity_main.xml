@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/mainParent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context="Activities.MainActivity">
 
     <FrameLayout
         android:id="@+id/activity_main_fragmentContain"

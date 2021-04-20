@@ -1,4 +1,4 @@
-package com.example.callapp;
+package Database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import Details.YeniUyeDetay;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -79,6 +81,35 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             return false;
         }
 
+    }
+
+    public List<YeniUyeDetay> getOne(String gelenMail){
+        List<YeniUyeDetay> returnList=new ArrayList<>();
+
+        String queryString="SELECT * FROM "+UYELER_TABLE+" WHERE "+ COLUMN_EMAIL +" = "+ gelenMail;
+
+        SQLiteDatabase db=this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(queryString,null);
+        if(cursor.moveToFirst()){
+                int uye_id=cursor.getInt(0);
+                String uye_ad=cursor.getString(1);
+                String uye_tel=cursor.getString(2);
+                String uye_mail= cursor.getString(3);
+                String uye_sifre=cursor.getString(4);
+                byte[] uye_resim=cursor.getBlob(5);
+
+                YeniUyeDetay yeniUyeDetay=new YeniUyeDetay(uye_id,uye_ad,uye_tel,uye_mail,uye_sifre,uye_resim);
+                returnList.add(yeniUyeDetay);
+        }else
+        {
+            //Listeye kimse eklenmez.
+        }
+
+
+        cursor.close();
+        db.close();
+        return returnList;
     }
 
 

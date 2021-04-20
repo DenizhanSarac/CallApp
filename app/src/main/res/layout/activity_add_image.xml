@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/loginBkColor"
-    tools:context=".addImageActivity">
+    tools:context="Activities.addImageActivity">
 
     <RelativeLayout
         android:id="@+id/add_profile_photo_RelativeLayout"

@@ -1,16 +1,18 @@
-package com.example.callapp;
+package Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import Database.DataBaseHelper;
+import com.example.callapp.R;
+import Details.YeniUyeDetay;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -89,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 yeniUyeDetay=new YeniUyeDetay(1,yeniuye_Ad,yeniuye_telNo,yeniuye_Email,yeniuye_Sifre,null);
                                 success = dataBaseHelper.addOne(yeniUyeDetay);
 
-                                Intent intent=new Intent(getApplicationContext(),addImageActivity.class);
+                                Intent intent=new Intent(getApplicationContext(), addImageActivity.class);
                                 intent.putExtra("email",yeniuye_Email);
                                 startActivity(intent);
                             }catch (Exception e)

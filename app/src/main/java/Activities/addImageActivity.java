@@ -1,16 +1,13 @@
-package com.example.callapp;
+package Activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.graphics.drawable.DrawerArrowDrawable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
@@ -18,15 +15,16 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.StringBuilderPrinter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import Database.DataBaseHelper;
+import com.example.callapp.R;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.security.spec.ECField;
 
 public class addImageActivity extends AppCompatActivity {
     private ImageView imgProfilResmi;
@@ -75,8 +73,8 @@ public class addImageActivity extends AppCompatActivity {
                   imgProfilResmi.setImageBitmap(defaultImage);*/
 
                 Toast.makeText(getApplicationContext(),"Profil resmi Eklendi",Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-                intent.putExtra("kullanici",gelenMail);
+                Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("kullaniciMail",gelenMail);
                 startActivity(intent);
 
             }catch (Exception e)
@@ -100,7 +98,7 @@ public class addImageActivity extends AppCompatActivity {
 
             Toast.makeText(getApplicationContext(),"Default resmi Eklendi",Toast.LENGTH_SHORT).show();
             Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-            intent.putExtra("kullanici",gelenMail);
+            intent.putExtra("kullaniciMail",gelenMail);
             startActivity(intent);
 
         }catch (Exception e)

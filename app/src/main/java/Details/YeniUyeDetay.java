@@ -1,4 +1,4 @@
-package com.example.callapp;
+package Details;
 
 import android.graphics.Bitmap;
 
