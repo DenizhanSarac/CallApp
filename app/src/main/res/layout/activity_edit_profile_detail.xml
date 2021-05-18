@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/loginCard"
+    app:cardCornerRadius="20dp"
+    android:elevation="5dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
+    android:background="@color/whiteCardColor"
+    tools:context="Activities.EditProfileDetail">
+
+
+    <LinearLayout
+        style="@style/linearParent"
+        android:layout_gravity="center"
+        android:padding="20dp">
+
+        <TextView
+            style="@style/headerTextPrimary"
+            android:text="DÜZENLE"
+            android:layout_marginTop="20dp"/>
+        <!-- İsim Bölümü -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextGenel"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                style="@style/modifiedEditTxt"
+                android:id="@+id/edit_EditTxtIsim"
+                android:hint="İsim"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@color/black" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <!-- Telefon Bölümü -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextGenel"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                style="@style/modifiedEditTxt"
+                android:inputType="text"
+                android:maxLines="1"
+                android:hint="Telefon Numarası"
+                android:id="@+id/edit_EditTxtTelNo" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <!-- Email Bölümü -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextGenel"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                style="@style/modifiedEditTxt"
+                android:inputType="text"
+                android:maxLines="1"
+                android:enabled="false"
+                android:hint="Email"
+                android:id="@+id/edit_EditTxtEmail" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <!-- Şifre Bölümü -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextGenel"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                style="@style/modifiedEditTxt"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:hint="Eski Şifre"
+                android:id="@+id/edit_EditTxtSifre"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextGenel"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                style="@style/modifiedEditTxt"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:hint="Yeni Şifre"
+                android:id="@+id/edit_Yeni_EditTxtSifre"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextGenel"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                android:id="@+id/edit_EditTxtMeslek"
+                style="@style/modifiedEditTxt"
+                android:hint="Meslek"
+                android:inputType="text"
+                android:maxLines="1" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextGenel"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                style="@style/modifiedEditTxt"
+                android:inputType="date"
+                android:maxLines="1"
+                android:hint="Doğum Tarihi"
+                android:id="@+id/edit_EditTxtDTarih"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Button Bölümü -->
+
+        <Button
+            android:layout_marginTop="5dp"
+            android:id="@+id/edit_BtnDuzen"
+            style="@style/loginButton"
+            android:layout_gravity="center"
+            android:background="@drawable/login_button_bk"
+            android:onClick="btnGuncelle"
+            android:text="Güncelle"
+            app:backgroundTint="@android:color/transparent"
+            app:backgroundTintMode="screen" />
+
+        <!--<TextView
+            style="@style/parent"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textColor="@color/primaryTextColor"
+            android:text="Hesabınız mı var? Giriş Yap"
+            android:id="@+id/layout_register_SignIn"
+            android:onClick="viewLoginPage"
+            android:layout_marginTop="20dp"/>-->
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

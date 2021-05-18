@@ -1,3 +1,13 @@
+//Açıklama bölümü
+/*  DENİZHAN SARAÇ
+ *   dnzhn.src@outlook.com
+ *   Computer Engineer at BİLECİK ŞEYH EDEBALİ UNIVERSITY
+ *   CALL APP FOR THEASIS
+ *   ALL RIGHTS RESERVED
+ *   11.04.2021 17:02
+ *   GITHUB:  https://github.com/DenizhanSarac/CallApp*/
+
+
 package Activities;
 
 import androidx.annotation.Nullable;
@@ -34,12 +44,13 @@ public class addImageActivity extends AppCompatActivity {
     private String gelenMail;
     byte[] kayitEdilecekResim;
 
+    //Layout değişkenleri bağlanıyor.
     public void init()
     {
         imgProfilResmi=(ImageView)findViewById(R.id.activity_add_image_ImageViewResimSec);
         btnIleri=(Button)findViewById(R.id.activity_add_image_ButtonIleri);
     }
-
+    //Kullanıcıdan alınan resim bitmap'den byte dönüştürülüyor.
     public void setDefaultImage(){
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.defaultimage);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -54,10 +65,12 @@ public class addImageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_image);
         init();
 
+        //Kayıt ol bölümünden gelen mail adresi burada yakalanıyor.
         Intent intent=getIntent();
         gelenMail=intent.getStringExtra("email");
     }
 
+    //Layout'ta bulunan ImageView'in Onclik özelliğidir. Burada kullanıcı izini ve fotoğraf seçimi ayarları vardır.
     public void profilResmiSec(View view)
     {
         ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
@@ -86,6 +99,8 @@ public class addImageActivity extends AppCompatActivity {
 
     }
 
+    //Eğer kullanıcı resim eklemez ise sistem üzerinde bulunan default resim ekleme bölümüdür.
+
     public void profildefaultSec(View view){
 
         setDefaultImage();
@@ -110,11 +125,12 @@ public class addImageActivity extends AppCompatActivity {
 
 
 
-
+    //Resmi belirlenen değerlere düşüren kod parçacığıdır.
     private Bitmap resimiKucult(Bitmap resim){
-        return Bitmap.createScaledBitmap(resim,120,150,true); // REsim Boyutu Ayarlama
+        return Bitmap.createScaledBitmap(resim,120,150,true); // Resim Boyutu Ayarlama
     }
 
+    //Kullanıcıdan resim seçebilmek için izin istenen yer.
     public void resimSec(View view)
     {
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED)
@@ -129,6 +145,7 @@ public class addImageActivity extends AppCompatActivity {
 
     }
 
+    //Kullanıcının izin verip vermediğini kontrol eden kod parçacığıdır.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode==imgIzinVerildiKodu){
@@ -160,7 +177,7 @@ public class addImageActivity extends AppCompatActivity {
         super.onActivityResult(requestCode,resultCode,data);
     }
 
-
+    //Kullanıcının kayıt ol dedikten sonra tekrar kayıt sayfasına dönmemesi gerekmektedir.
     @Override
     public void onBackPressed() {
         //Kullanıcının kayıt ol sayfasına dönüşü engellenmiştir.

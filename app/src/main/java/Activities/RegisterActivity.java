@@ -1,3 +1,12 @@
+
+/*  DENİZHAN SARAÇ
+ *   dnzhn.src@outlook.com
+ *   Computer Engineer at BİLECİK ŞEYH EDEBALİ UNIVERSITY
+ *   CALL APP FOR THEASIS
+ *   ALL RIGHTS RESERVED
+ *   11.04.2021 17:02
+ *   GITHUB:  https://github.com/DenizhanSarac/CallApp*/
+
 package Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -69,8 +78,11 @@ public class RegisterActivity extends AppCompatActivity {
 
         yeniuye_Ad=edtAd.getText().toString();
         yeniuye_telNo=edtTel.getText().toString();
+            yeniuye_telNo=yeniuye_telNo.trim();
         yeniuye_Email=edteMail.getText().toString();
+            yeniuye_Email=yeniuye_Email.trim();
         yeniuye_Sifre=edtSifre.getText().toString();
+            yeniuye_Sifre=yeniuye_Sifre.trim();
 
         if(!TextUtils.isEmpty(yeniuye_Ad)){
             if (!TextUtils.isEmpty(yeniuye_telNo)){
@@ -88,7 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
                         if(checkMail == false)
                         {
                             try{
-                                yeniUyeDetay=new YeniUyeDetay(1,yeniuye_Ad,yeniuye_telNo,yeniuye_Email,yeniuye_Sifre,null);
+                                yeniUyeDetay=new YeniUyeDetay(1,yeniuye_Ad,yeniuye_telNo,yeniuye_Email,yeniuye_Sifre,null,null,null);
                                 success = dataBaseHelper.addOne(yeniUyeDetay);
 
                                 Intent intent=new Intent(getApplicationContext(), addImageActivity.class);

@@ -1,5 +1,13 @@
-package Fragment;
 
+/*  DENİZHAN SARAÇ
+ *   dnzhn.src@outlook.com
+ *   Computer Engineer at BİLECİK ŞEYH EDEBALİ UNIVERSITY
+ *   CALL APP FOR THEASIS
+ *   ALL RIGHTS RESERVED
+ *   11.04.2021 17:02
+ *   GITHUB:  https://github.com/DenizhanSarac/CallApp*/
+
+package Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +19,16 @@ import androidx.fragment.app.Fragment;
 
 import com.example.callapp.R;
 
-public class MessageFragment extends Fragment {
+public class CallcenterFragment extends Fragment  {
+    View view;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_message,container,false);
+        view= inflater.inflate(R.layout.fragment_callcenter,container,false);
+
+        return view;
     }
+
+
 }

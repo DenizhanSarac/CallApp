@@ -1,5 +1,13 @@
-package Fragment;
 
+/*  DENİZHAN SARAÇ
+ *   dnzhn.src@outlook.com
+ *   Computer Engineer at BİLECİK ŞEYH EDEBALİ UNIVERSITY
+ *   CALL APP FOR THEASIS
+ *   ALL RIGHTS RESERVED
+ *   11.04.2021 17:02
+ *   GITHUB:  https://github.com/DenizhanSarac/CallApp*/
+
+package Fragment;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -28,19 +36,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.callapp.R;
 
-import Activities.MainActivity;
 import RecyclerAdapter.RecyclerAdapter;
 
 import com.google.gson.Gson;
-
-import org.w3c.dom.Comment;
 
 import java.util.ArrayList;
 
 import Details.Contacts;
 
-public class ContactFragment extends Fragment{
-
+//Kullanıcının rehberinde bulunan kişilerin ekrana getirilmesini sağlayan fragment bölümüdür.
+public class ContactFragment extends Fragment {
+    //Gerekli değişkenler.
     private TextView toplamSay;
     private int count=0;
     private View view;
@@ -49,8 +55,11 @@ public class ContactFragment extends Fragment{
     private RecyclerView.LayoutManager layoutManager;
     RecyclerAdapter adapter;
     Cursor phones;
+    //İzinler için gerekli değişkenlerdir.
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
     private static final int REQUEST_CALL=1;
+    private static final int REQUEST_SMS=1;
+
 
 
     @Nullable
@@ -67,10 +76,10 @@ public class ContactFragment extends Fragment{
 
         selectUsers=new ArrayList<Contacts>();
         showContacts();
-
         return view;
     }
 
+    //Rehber izinleri burada istenir.
     public void showContacts(){
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ActivityCompat.checkSelfPermission(getContext(),Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
@@ -83,6 +92,7 @@ public class ContactFragment extends Fragment{
             loadContact.execute();
         }
     }
+    //İzinlerin sonuçlarına göre rehber listelenir.
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
@@ -91,15 +101,15 @@ public class ContactFragment extends Fragment{
                 // Permission is granted
                 showContacts();
             } else {
-                Toast.makeText(view.getContext(), "Until you grant the permission, we canot display the names", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), "İzin verilmedikçe kişileri göremezsiniz.", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
 
 
-
     class LoadContact extends AsyncTask<Void, Void, Void> {
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -140,6 +150,7 @@ public class ContactFragment extends Fragment{
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
             // sortContacts();
             int count=selectUsers.size();
             ArrayList<Contacts> removed=new ArrayList<>();
@@ -161,6 +172,7 @@ public class ContactFragment extends Fragment{
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.setAdapter(adapter);
 
+            //Kullanıncın seçtiği kişiyi arayabilmesi için onclick özellikleri buradadır.
             adapter.setOnClickListener(new RecyclerAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(int position) {
@@ -169,22 +181,24 @@ public class ContactFragment extends Fragment{
 
                 @Override
                 public void onCallClick(int position) {
+                    //Bir kişiyi aramak için kullanılan bölüm.
                     Contacts n=selectUsers.get(position);
                     String phone=n.getPhone();
                     makePhoneCall(phone);
-
                 }
 
                 @Override
                 public void onMessageClick(int position) {
-                    System.out.println("Mesaj "+String.valueOf(position));
+                    Contacts n=selectUsers.get(position);
+                    String phone=n.getPhone();
+                    sendMessage(phone);
                 }
             });
 
 
         }
-
-        private void makePhoneCall(String number) {
+        //Rehberde bulunan birisini aramayı sağlayan kod bölümüdür.
+        private void makePhoneCall(String number){
             if (number.trim().length() > 0) {
                 if (ContextCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
@@ -198,6 +212,24 @@ public class ContactFragment extends Fragment{
                 Toast.makeText(getActivity(), "Bir Kişi Seçiniz.", Toast.LENGTH_SHORT).show();
             }
         }
+
+        //Rehberde bulunan birisine mesaj göndermeyi sağlayan kod bölümüdür.
+        private void sendMessage(String number){
+            if (number.trim().length() > 0) {
+                if (ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new String[]{Manifest.permission.SEND_SMS}, REQUEST_SMS);
+                } else {
+                    String dial = "smsto:" + number;
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(dial)));
+                }
+            } else {
+                Toast.makeText(getActivity(), "Bir Kişi Seçiniz.", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+
 
 
 

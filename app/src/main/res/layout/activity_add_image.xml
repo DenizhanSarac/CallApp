@@ -68,8 +68,10 @@
 
                 <TextView
                     style="@style/addaphoto"
+                    android:layout_width="255dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="70dp"
-                    android:text="Eklediğiniz resim profil sayfasında gözükecektir."
+                    android:text="Resim eklemek için yukarıda bulunan daire'ye tıklayınız. Eğer varsayılan kullanıcı resmini kullanmak isterseniz devam et butonuna basınız."
                     android:textSize="12sp" />
 
             </RelativeLayout>

@@ -82,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                 //TRY-CATCH ile hatalar yakalanmaya çalışıyor.
                 try {
                     eMail = etxtEmail.getText().toString();
+                    eMail=eMail.trim();
                     Pass = etxtPassword.getText().toString();
                     //Email ve şifre bölümleri boş bırakılamaz olayı koşullanıyor.
                     if (!TextUtils.isEmpty(eMail) && !TextUtils.isEmpty(Pass)) {
