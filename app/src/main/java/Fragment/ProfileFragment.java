@@ -65,8 +65,11 @@ public class ProfileFragment extends Fragment {
             textMail.setText(yeniUyeDetay.geteMail());
             textMailUst.setText(yeniUyeDetay.geteMail());
             textTelno.setText(yeniUyeDetay.getTelNo());
-            textMeslek.setText(yeniUyeDetay.getMeslek());
-            textDogumTarihi.setText(yeniUyeDetay.getDogum());
+            if(yeniUyeDetay.getMeslek() == null){textMeslek.setText("Meslek");}
+            else{textMeslek.setText(yeniUyeDetay.getMeslek());}
+            if(yeniUyeDetay.getDogum() == null){textDogumTarihi.setText("Doğum Tarihi");}
+            else{textDogumTarihi.setText(yeniUyeDetay.getDogum());}
+
             //Byte olan resim burada Bitmap formatına dönüşüyor.
             ByteArrayInputStream arrayInputStream = new ByteArrayInputStream(yeniUyeDetay.getResim());
             Bitmap bitmap = BitmapFactory.decodeStream(arrayInputStream);

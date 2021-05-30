@@ -60,7 +60,7 @@ public class EditProfileDetail extends AppCompatActivity {
                     if(TextUtils.isEmpty(edtysifre.getText()))
                     {
                         try{
-                            YeniUyeDetay yeniUyeDetay=new YeniUyeDetay(-1,isim,telefon,mail,DataSifre,resim,dogumTarih,Meslek);
+                            YeniUyeDetay yeniUyeDetay=new YeniUyeDetay(1,isim,telefon,mail,DataSifre,resim,dogumTarih,Meslek);
                             Check=dataBaseHelper.updateOne(yeniUyeDetay);
                             if(Check == 1)
                             {
@@ -89,14 +89,16 @@ public class EditProfileDetail extends AppCompatActivity {
                                 if(Check == 1)
                                 {
                                     showToast("Güncelleme Başarılı");
-                                    Intent intent=new Intent(getApplicationContext(), ProfileFragment.class);
-                                    startActivity(intent);
+                                    ProfileFragment fragment=new ProfileFragment();
+                                    FragmentManager fragmentManager=getSupportFragmentManager();
+                                    fragmentManager.beginTransaction().replace(R.id.fragment_profile,fragment).commit();
                                 }
                                 else
                                 {
                                     showToast("Güncelleme Hatalı !! ");
-                                    Intent intent=new Intent(getApplicationContext(), ProfileFragment.class);
-                                    startActivity(intent);
+                                    ProfileFragment fragment=new ProfileFragment();
+                                    FragmentManager fragmentManager=getSupportFragmentManager();
+                                    fragmentManager.beginTransaction().replace(R.id.fragment_profile,fragment).commit();
                                 }
                             }catch (Exception e){
                                 e.printStackTrace();

@@ -1,12 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    style="@style/mainParent">
+    style="@style/mainParent"
+    android:id="@+id/fragment_callcenter">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:background="#FA9C9C"
+    android:layout_height="wrap_content">
 
-    <TextView
+    <Switch
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/fragment_callcenter_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:text="Çağrılar"
-        android:layout_centerInParent="true"/>
+        android:textOff="Hayır"
+        android:textOn="Evet"
+        android:text="Çağrı Reddetme" />
+
+</LinearLayout>
+    
+    <!-- Mesaj Ekleyen Layout -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:visibility="gone"
+            android:layout_marginTop="50dp"
+            android:id="@+id/fragment_callcenter_YeniMesajEkleRelativeLayout">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mesaj"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="18dp"/>
+                <EditText
+                    android:layout_marginTop="20dp"
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="25dp"
+                    android:id="@+id/fragment_callcenter_editMesaj" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/fragment_callcenter_ayarlaBtn"
+                android:layout_width="140dp"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginStart="84dp"
+                android:layout_marginLeft="84dp"
+                android:layout_marginTop="110dp"
+                android:layout_marginEnd="185dp"
+                android:layout_marginRight="185dp"
+                android:text="Mesaj Ekle" />
+
+
+        </RelativeLayout>
+    <!-- Mesajları Gösteren Layout -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="50dp"
+            android:id="@+id/fragment_callcenter_EkliMesajlariGosterRelativeLayout" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lütfen bir mesaja tıklayınız. Mesajınız yoksa yeni mesaj ekleyiniz."
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragment_callcenter_RecyclerView"
+                android:visibility="invisible"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="50dp" />
+            <!-- Buraya RView Eklenecek. -->
+
+          <LinearLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="200dp" >
+
+              <Button
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Başlat"
+                  android:layout_marginLeft="70dp"
+                  android:id="@+id/fragment_callcenter_onaylaBtn"/>
+
+              <Button
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Yeni Mesaj"
+                  android:layout_marginLeft="20dp"
+                  android:id="@+id/fragment_callcenter_yeniMesajBtn" />
+          </LinearLayout>
+
+        </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/fragment_callcenter_CagriLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/fragment_callcenter_EkliMesajlariGosterRelativeLayout"
+       android:layout_marginTop="40dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fragment_callcenter_CalllogRV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+    </RelativeLayout>
+
+
 </RelativeLayout>

@@ -1,4 +1,8 @@
 <resources>
-    <string name="app_name">CallApp</string>
+    <string name="app_name">FlexiCall</string>
     <string name="signup_login_hint">Already have an account? Sign In</string>
+    <string name="nf_simple_title">Başlık</string>
+    <string name="nf_simple_message">Mesaj</string>
+    <string name="nf_simple_ticker">A</string>
+
 </resources>

@@ -15,9 +15,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.SimpleCursorAdapter;
 
 import androidx.annotation.Nullable;
 
+import com.example.callapp.R;
+
+import Details.Cagri;
 import Details.YeniUyeDetay;
 
 import java.security.MessageDigest;
@@ -30,6 +34,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     //Veritabanında Bulunan tablonun tutulduğu değişken.
     public static final String UYELER_TABLE = "UYELER_TABLE";
     //Tablonun içinde bulunan satırların değişkenleri.
+    //UYELER TABLE
     public static final String COLUMN_AD = "AD";
     public static final String COLUMN_TELNO = "TELNO";
     public static final String COLUMN_EMAIL = "EMAIL";
@@ -38,18 +43,31 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ID = "ID";
     private static final String COLUMN_DOGUM = "DOGUM";
     private static final String COLUMN_MESLEK = "MESLEK";
+    //CAGRI TABLE
+    public static final String CAGRI_TABLE = "CAGRI_TABLE";
+    public static final String C_ID = "C_ID";
+    public static final String U_ID = "U_ID";
+    public static final String C_MESAJ = "C_MESAJ";
+
+    Context ctx;
+
+
 
     public DataBaseHelper(@Nullable Context context) {
         super(context, "callapp.db", null, 1);
+        ctx=context;
     }
 
     //Veritabanının ilk çağrıldığında oluşturan kod. Veritabanı oluşturma kodu burada bulunur.
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createTableStatement= "CREATE TABLE " + UYELER_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_AD + " VARCHAR, " + COLUMN_TELNO + " VARCHAR, " + COLUMN_EMAIL + " VARCHAR, " + COLUMN_SIFRE + " VARCHAR, " + COLUMN_RESIM + " BLOB, "+ COLUMN_DOGUM + " VARCHAR, " + COLUMN_MESLEK + " VARCHAR )";
-
+        String createTableStatement2= "CREATE TABLE " + CAGRI_TABLE + "(" + C_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + U_ID + " int, "+C_MESAJ+ " VARCHAR, FOREIGN KEY (" + U_ID + ") REFERENCES " + UYELER_TABLE +" ("+COLUMN_ID+ "))";
         db.execSQL(createTableStatement);
+        db.execSQL(createTableStatement2);
     }
+
+
 
     //Veritabanının versiyon numarasını değiştirir.
     @Override
@@ -219,22 +237,43 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public int updateOne(YeniUyeDetay yeniUyeDetay){
         SQLiteDatabase database=this.getWritableDatabase();
         ContentValues values=new ContentValues();
-        yeniUyeDetay.setSifre(md5(yeniUyeDetay.getSifre()));
+        if(yeniUyeDetay.getId()==1)
+        {
+            values.put(COLUMN_AD,yeniUyeDetay.getAd());
+            values.put(COLUMN_TELNO,yeniUyeDetay.getTelNo());
+            values.put(COLUMN_EMAIL,yeniUyeDetay.geteMail());
+            values.put(COLUMN_RESIM,yeniUyeDetay.getResim());
+            values.put(COLUMN_DOGUM,yeniUyeDetay.getDogum());
+            values.put(COLUMN_SIFRE,yeniUyeDetay.getSifre());
+            values.put(COLUMN_MESLEK,yeniUyeDetay.getMeslek());
 
-        values.put(COLUMN_AD,yeniUyeDetay.getAd());
-        values.put(COLUMN_TELNO,yeniUyeDetay.getTelNo());
-        values.put(COLUMN_EMAIL,yeniUyeDetay.geteMail());
-        values.put(COLUMN_RESIM,yeniUyeDetay.getResim());
-        values.put(COLUMN_DOGUM,yeniUyeDetay.getDogum());
-        values.put(COLUMN_SIFRE,yeniUyeDetay.getSifre());
-        values.put(COLUMN_MESLEK,yeniUyeDetay.getMeslek());
+            int a=database.update(UYELER_TABLE, values, COLUMN_EMAIL + " = ?", new String[] {yeniUyeDetay.geteMail()});
+            database.close();
+            if(a==1)
+                return 1;
+            else
+                return 0;
+        }
+        else
+        {
+            yeniUyeDetay.setSifre(md5(yeniUyeDetay.getSifre()));
 
-       int a=database.update(UYELER_TABLE, values, COLUMN_EMAIL + " = ?", new String[] {yeniUyeDetay.geteMail()});
-       database.close();
-       if(a==1)
-           return 1;
-       else
-           return 0;
+            values.put(COLUMN_AD,yeniUyeDetay.getAd());
+            values.put(COLUMN_TELNO,yeniUyeDetay.getTelNo());
+            values.put(COLUMN_EMAIL,yeniUyeDetay.geteMail());
+            values.put(COLUMN_RESIM,yeniUyeDetay.getResim());
+            values.put(COLUMN_DOGUM,yeniUyeDetay.getDogum());
+            values.put(COLUMN_SIFRE,yeniUyeDetay.getSifre());
+            values.put(COLUMN_MESLEK,yeniUyeDetay.getMeslek());
+
+            int a=database.update(UYELER_TABLE, values, COLUMN_EMAIL + " = ?", new String[] {yeniUyeDetay.geteMail()});
+            database.close();
+            if(a==1)
+                return 1;
+            else
+                return 0;
+        }
+
     }
 
     //Şifrenin md5 formatında saklanması için yazılan kod bölümüdür. Bu türde şifre kırılamaz.
@@ -268,6 +307,69 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }else
             return false;
     }
+
+
+    public int getId(String gelenMail){
+        YeniUyeDetay yeniUyeDetay;
+        String queryString="SELECT * FROM "+UYELER_TABLE+" WHERE "+ COLUMN_EMAIL +" =?";
+
+        SQLiteDatabase db=this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(queryString,new String[]{gelenMail});
+        if(cursor.moveToFirst()){
+            int uye_id=cursor.getInt(0);
+            return uye_id;
+
+        }else
+        {
+
+        }
+
+        cursor.close();
+        db.close();
+        return -1;
+    }
+
+    public boolean addCagri(Cagri cagri){
+
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues cv=new ContentValues();
+
+        cv.put(U_ID,cagri.getU_id());
+        cv.put(C_MESAJ,cagri.getMesaj());
+        long insert = db.insert(CAGRI_TABLE, null, cv);
+        if(insert == -1){return false;}
+        else{return true;}
+
+    }
+
+    public ArrayList<Cagri> getMesaj(int gelenId){
+
+        ArrayList<Cagri> returnList=new ArrayList<>();
+        String queryString="Select * FROM "+CAGRI_TABLE+ " WHERE "+ U_ID +" =?";
+        SQLiteDatabase db=this.getReadableDatabase();
+
+        Cursor cursor=db.rawQuery(queryString,new String[]{String.valueOf(gelenId)});
+        if (cursor.moveToFirst()){
+            do {
+                int cagri_id=cursor.getInt(0);
+                String c_mesaj=cursor.getString(2);
+
+                Cagri cagri=new Cagri(c_mesaj,cagri_id);
+                returnList.add(cagri);
+
+            }while (cursor.moveToNext());
+        }else{
+
+        }
+
+        cursor.close();
+        db.close();
+        return returnList;
+
+
+    }
+
 
 
 }

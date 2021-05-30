@@ -16,6 +16,10 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.Manifest;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -33,13 +37,15 @@ import com.example.callapp.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String EXTRA_FRAGMENT_TO_LAUNCH = "fragment_to_launch";
+    public static final boolean TAG_NOTIFICATION_FRAGMENT = true;
+
+
     //Gerekli değişkenler.
     BottomNavigationView bottombar;
     private String gelenMail;
     Bundle bundle,bundle2;
-    public final int REQUEST_NUMBER=1;
-    public final int REQUEST_LOG=1;
-    public final int REQUEST_STATE=1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         //Uygulama açıldığında kullanıcının anasayfaya yönlendirmesi için yazılan koddur.
         getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_fragmentContain,
                 new ContactFragment()).commit();
-        //
+
     }
 
     @Override
@@ -82,9 +88,7 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         case R.id.bottom_navigation_message:
                             selectedFragment = new CallcenterFragment();
-                            aramaLog();
-                            aramaTakip();
-                            aramaNumber();
+                            selectedFragment.setArguments(bundle);
                             break;
                         case R.id.bottom_navigation_profile:
                             selectedFragment = new ProfileFragment();
@@ -99,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
             };
 
 
-    public void aramaTakip(){
+    /*public void aramaTakip(){
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ActivityCompat.checkSelfPermission(getApplicationContext(),Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_STATE);
@@ -107,25 +111,17 @@ public class MainActivity extends AppCompatActivity {
         } else {
             // Android version is lesser than 6.0 or the permission is already granted.
         }
-        }
+        }*/
 
-        public void aramaLog(){
+        /*public void aramaLog(){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ActivityCompat.checkSelfPermission(getApplicationContext(),Manifest.permission.READ_CALL_LOG) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.READ_CALL_LOG}, REQUEST_LOG);
+                requestPermissions(new String[]{Manifest.permission.READ_CALL_LOG}, 1);
                 //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overriden method
             } else {
                 // Android version is lesser than 6.0 or the permission is already granted.
             }
-        }
+        }*/
 
-    public void aramaNumber(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ActivityCompat.checkSelfPermission(getApplicationContext(),Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.READ_PHONE_NUMBERS}, REQUEST_NUMBER);
-            //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overriden method
-        } else {
-            // Android version is lesser than 6.0 or the permission is already granted.
-        }
-    }
 
 
     @Override
@@ -138,4 +134,23 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    /*public void addNotificaction(){
+        NotificationManager manager=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification.Builder builder=new Notification.Builder(this);
+        builder.setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("Çağrı Engelleme")
+                .setContentText("Çağrı Engelleme Etkin")
+                .setTicker("AAAA")
+                .setDefaults(Notification.DEFAULT_SOUND)
+                .setContentIntent(PendingIntent.getActivity(this,0,new Intent(this, MainActivity.class),0));
+
+        Notification notification=builder.build();
+        manager.notify(0,notification);
+
+    }
+
+    public void removeNotificaction(){
+        ((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE)).cancel(0);
+    }*/
 }

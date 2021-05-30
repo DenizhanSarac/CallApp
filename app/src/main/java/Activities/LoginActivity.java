@@ -14,6 +14,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -183,6 +185,7 @@ public class LoginActivity extends AppCompatActivity {
         //Şifre gönderme olayı bitiyor.
 
         //Dialog ekrana getiriyor.
+        resetPassDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         resetPassDialog.getWindow().setAttributes(params);
         resetPassDialog.show();
         //Dialog ekrana verildi.
