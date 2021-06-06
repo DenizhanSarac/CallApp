@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,6 +22,9 @@ import android.widget.Toast;
 
 import Database.DataBaseHelper;
 import com.example.callapp.R;
+
+import java.util.regex.Pattern;
+
 import Details.YeniUyeDetay;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -30,6 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
     private String yeniuye_Ad,yeniuye_telNo,yeniuye_Email,yeniuye_Sifre;
     DataBaseHelper dataBaseHelper;
     private ImageView imgCikis;
+    String MobilePattern = "[0-9]{10}";
 
     //Bağlantı noktaları.
     private void init(){
@@ -85,47 +90,47 @@ public class RegisterActivity extends AppCompatActivity {
             yeniuye_Sifre=yeniuye_Sifre.trim();
 
         if(!TextUtils.isEmpty(yeniuye_Ad)){
-            if (!TextUtils.isEmpty(yeniuye_telNo)){
+            if (!TextUtils.isEmpty(yeniuye_telNo) && yeniuye_telNo.matches(MobilePattern)){
 
                 if(!TextUtils.isEmpty(yeniuye_Email)){
+                    if(Patterns.EMAIL_ADDRESS.matcher(yeniuye_Email).matches()) {
 
-                    if (!TextUtils.isEmpty(yeniuye_Sifre)&&yeniuye_Sifre.length()>=8){
-                        dataBaseHelper=new DataBaseHelper(this);
+                        if (!TextUtils.isEmpty(yeniuye_Sifre) && yeniuye_Sifre.length() >= 8) {
+                            dataBaseHelper = new DataBaseHelper(this);
 
-                        boolean success=true;
-                        YeniUyeDetay yeniUyeDetay;
+                            boolean success = true;
+                            YeniUyeDetay yeniUyeDetay;
 
-                        boolean checkMail = dataBaseHelper.checkMail(yeniuye_Email);
+                            boolean checkMail = dataBaseHelper.checkMail(yeniuye_Email);
 
-                        if(checkMail == false)
-                        {
-                            try{
-                                yeniUyeDetay=new YeniUyeDetay(1,yeniuye_Ad,yeniuye_telNo,yeniuye_Email,yeniuye_Sifre,null,null,null);
-                                success = dataBaseHelper.addOne(yeniUyeDetay);
+                            if (checkMail == false) {
+                                try {
+                                    yeniUyeDetay = new YeniUyeDetay(1, yeniuye_Ad, yeniuye_telNo, yeniuye_Email, yeniuye_Sifre, null, null, null);
+                                    success = dataBaseHelper.addOne(yeniUyeDetay);
 
-                                Intent intent=new Intent(getApplicationContext(), addImageActivity.class);
-                                intent.putExtra("email",yeniuye_Email);
-                                startActivity(intent);
-                            }catch (Exception e)
-                            {
+                                    Intent intent = new Intent(getApplicationContext(), addImageActivity.class);
+                                    intent.putExtra("email", yeniuye_Email);
+                                    startActivity(intent);
+                                } catch (Exception e) {
 
-                                e.printStackTrace();
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                showToast("Bu mail adresi mevcut.");
                             }
-                        }else{
-                            showToast("Bu mail adresi mevcut.");
-                        }
 
 
-                        if(success == true){
-                            showToast("İşlem Başarılı.");
-                        }else
-                        {
-                            showToast("İşlem Başarısız.");
-                        }
+                            if (success == true) {
+                                showToast("İşlem Başarılı.");
+                            } else {
+                                showToast("İşlem Başarısız.");
+                            }
 
 
+                        } else
+                            showToast("Şifre bölümü boş bırakılamaz. Şifre 8 karakterden az olamaz.");
                     }else
-                        showToast("Şifre bölümü boş bırakılamaz. Şifre 8 karakterden az olamaz.");
+                        showToast("Geçerli bir mail adresi giriniz.");
                 }else
                     showToast("Mail bölümü boş bırakılamaz.");
             }else

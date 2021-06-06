@@ -370,6 +370,25 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public boolean sifreSifirla(String Mail,String Sifre)
+    {
+        String ySifre;
+        ySifre=md5(Sifre);
+
+        SQLiteDatabase database=this.getWritableDatabase();
+        ContentValues values=new ContentValues();
+        values.put(COLUMN_SIFRE,ySifre);
+        int a;
+        a=database.update(UYELER_TABLE, values, COLUMN_EMAIL + " = ?",
+                new String[] {Mail});
+        database.close();
+        if(a > 0){
+            return true;
+        }else
+            return false;
+
+    }
+
 
 
 }

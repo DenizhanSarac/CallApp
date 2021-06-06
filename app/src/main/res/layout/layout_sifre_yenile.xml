@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="300dp"
-    android:layout_height="300dp"
+    android:layout_height="320dp"
     app:cardCornerRadius="20dp"
     android:elevation="5dp"
     android:layout_gravity="center"
@@ -12,6 +12,8 @@
     android:background="@color/whiteCardColor">
 
     <LinearLayout
+    android:visibility="visible"
+     android:id="@+id/layout_sifre_sifirla_mailLinear"
     style="@style/linearParent"
     android:layout_gravity="center"
     android:padding="20dp">
@@ -39,7 +41,7 @@
             style="@style/loginButton"
             android:layout_gravity="center"
             android:background="@drawable/login_button_bk"
-            android:text="Sıfırla"
+            android:text="Gönder"
             android:onClick="btnSifreSifirla"
             app:backgroundTint="@android:color/transparent"
             app:backgroundTintMode="screen" />
@@ -51,6 +53,66 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/login_button_bk"
             android:id="@+id/sifre_sifirla_SifreDialogKapat"
+            android:src="@android:drawable/ic_menu_close_clear_cancel" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/layout_sifre_sifirla_YeniSifreLinear"
+        style="@style/linearParent"
+        android:layout_gravity="center"
+        android:padding="20dp">
+        <TextView
+            style="@style/headerTextPrimary"
+            android:text="Şifre Sıfırla"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextGenel"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                style="@style/modifiedEditTxt"
+                android:id="@+id/layout_sifre_sifirla_YeniSifre1"
+                android:hint="Yeni Şifre"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:textColor="@color/black" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextGenel"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                style="@style/modifiedEditTxt"
+                android:id="@+id/layout_sifre_sifirla_YeniSifre2"
+                android:hint="Şifre Tekrar"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:textColor="@color/black" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:layout_marginTop="5dp"
+            android:id="@+id/layout_sifre_sifirla_onaylaSifre"
+            style="@style/loginButton"
+            android:layout_gravity="center"
+            android:background="@drawable/login_button_bk"
+            android:text="Onayla"
+            app:backgroundTint="@android:color/transparent"
+            app:backgroundTintMode="screen" />
+
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/login_button_bk"
+            android:id="@+id/sifre_sifirla_YeniSifreDialogKapat"
             android:src="@android:drawable/ic_menu_close_clear_cancel" />
 
     </LinearLayout>

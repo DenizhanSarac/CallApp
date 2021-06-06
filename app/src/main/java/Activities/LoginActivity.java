@@ -17,6 +17,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
@@ -24,6 +25,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import Database.DataBaseHelper;
@@ -34,15 +36,16 @@ public class LoginActivity extends AppCompatActivity {
 
 
     //Giriş yap değişkenleri
-    private EditText etxtEmail,etxtPassword,etxtsifreSifirlaMail;
+    private EditText etxtEmail,etxtPassword,etxtsifreSifirlaMail,edtYeniSifre1,edtYeniSifre2;
     private CheckBox beniHatirla;
-    private String eMail,Pass,getEmail;
+    private String eMail,Pass,getEmail,yeniSifre1,yeniSifre2;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     //Şifre Sıfırlama değişkenleri
-    private Button  sifreSifirlaBtn;
+    private Button  sifreSifirlaBtn,sifreSifirlaOnayla;
     private boolean check;
     private Dialog resetPassDialog;
+    LinearLayout MailLayout,SifreLayout;
 
     //Çıkış Butonu değişkeni
     private ImageView imgCikis;
@@ -157,9 +160,17 @@ public class LoginActivity extends AppCompatActivity {
         //Dialog oluşturuldu.
 
         //Veriler çekiliyor.
+        //Mail Bölümü
         ImageView imgSifreCikis=(ImageView)resetPassDialog.findViewById(R.id.sifre_sifirla_SifreDialogKapat);
         sifreSifirlaBtn=(Button)resetPassDialog.findViewById(R.id.layout_sifre_sifirla_ButtonSifreSifirla);
         etxtsifreSifirlaMail=(EditText)resetPassDialog.findViewById(R.id.layout_sifre_sifirla_EditTxtMail);
+        MailLayout=(LinearLayout)resetPassDialog.findViewById(R.id.layout_sifre_sifirla_mailLinear);
+        //Şifre Bölümü
+        ImageView imgSifreCikis2=(ImageView)resetPassDialog.findViewById(R.id.sifre_sifirla_YeniSifreDialogKapat);
+        edtYeniSifre1=(EditText)resetPassDialog.findViewById(R.id.layout_sifre_sifirla_YeniSifre1);
+        edtYeniSifre2=(EditText)resetPassDialog.findViewById(R.id.layout_sifre_sifirla_YeniSifre2);
+        SifreLayout=(LinearLayout)resetPassDialog.findViewById(R.id.layout_sifre_sifirla_YeniSifreLinear);
+        sifreSifirlaOnayla=(Button)resetPassDialog.findViewById(R.id.layout_sifre_sifirla_onaylaSifre);
         //Veriler Çekildi.
 
         //Dialogda bulunan kapatma ImageView yakalanma olayı.
@@ -169,20 +180,56 @@ public class LoginActivity extends AppCompatActivity {
                 resetPassDialog.dismiss();
             }
         });
-
-
+        imgSifreCikis2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetPassDialog.dismiss();
+            }
+        });
         //Sifre Gönderme olayı başlıyor.
         sifreSifirlaBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!TextUtils.isEmpty(etxtsifreSifirlaMail.getText().toString()))
+                if(!TextUtils.isEmpty(etxtsifreSifirlaMail.getText().toString().trim()))
                 {
-                    /* Sifre Sıfırlama Kodları buraya Eklenecek. */
-                    Toast.makeText(getApplicationContext(),"Şifre Sıfırlama Gönderildi",Toast.LENGTH_SHORT).show();
+                    DataBaseHelper dataBaseHelper=new DataBaseHelper(resetPassDialog.getContext());
+                    if(dataBaseHelper.checkMail(etxtsifreSifirlaMail.getText().toString()))
+                    {
+                        MailLayout.setVisibility(View.GONE);
+                        SifreLayout.setVisibility(View.VISIBLE);
+                    }else{
+                        Toast.makeText(getApplicationContext(),"Mail adresi hatalı.",Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
         //Şifre gönderme olayı bitiyor.
+        sifreSifirlaOnayla.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                yeniSifre1=edtYeniSifre1.getText().toString();
+                yeniSifre2=edtYeniSifre2.getText().toString();
+                if(!TextUtils.isEmpty(yeniSifre1) && yeniSifre1.length() >= 8){
+                    if(!TextUtils.isEmpty(yeniSifre2) && yeniSifre2.length() >=8 ){
+                        if(yeniSifre1.equals(yeniSifre2)){
+                            boolean sonuc;
+                            DataBaseHelper dataBaseHelper=new DataBaseHelper(getApplicationContext());
+                            sonuc=dataBaseHelper.sifreSifirla(etxtsifreSifirlaMail.getText().toString(),yeniSifre1);
+                            if(sonuc){
+                                Toast.makeText(getApplicationContext(),"İşlem başarılı.",Toast.LENGTH_SHORT).show();
+                                resetPassDialog.dismiss();
+                            }else
+                                Toast.makeText(getApplicationContext(),"İşlem başarısız.",Toast.LENGTH_SHORT).show();
+
+                        }else
+                            Toast.makeText(getApplicationContext(),"Şifreler uyuşmuyor.",Toast.LENGTH_SHORT).show();
+                    }else
+                        Toast.makeText(getApplicationContext(),"Yeni şifre tekrar boş olamaz.",Toast.LENGTH_SHORT).show();
+                }else
+                    Toast.makeText(getApplicationContext(),"Yeni şifre boş olamaz.",Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         //Dialog ekrana getiriyor.
         resetPassDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

@@ -300,8 +300,8 @@ public class CallcenterFragment extends Fragment {
 
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(view.getContext())
-                    .setSmallIcon(R.drawable.ic_notify)
-                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_notify))
+                    .setSmallIcon(R.mipmap.ic_application_launcher)
+                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_application_launcher))
                     .setContentTitle(messageTitle)
                     .setContentText("Gönderilecek olan mesaj : "+ messageBody)
                     .setAutoCancel(true)

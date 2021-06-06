@@ -9,6 +9,7 @@
 
 package Fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,6 +30,7 @@ import com.example.callapp.R;
 import java.io.ByteArrayInputStream;
 
 import Activities.EditProfileDetail;
+import Activities.addImageActivity;
 import Database.DataBaseHelper;
 import Details.YeniUyeDetay;
 
@@ -99,7 +101,14 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-
+        imgResim.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(view.getContext(), addImageActivity.class);
+                intent.putExtra("email",Mail);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 
