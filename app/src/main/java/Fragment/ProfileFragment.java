@@ -10,16 +10,28 @@
 package Fragment;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,6 +52,14 @@ public class ProfileFragment extends Fragment {
     private TextView textIsim,textMail,textMailUst,textTelno,textSifre,textMeslek,textDogumTarihi;
     private ImageView imgResim,imgEditbtn;
     private View view;
+
+
+    private EditText etxtsifreSifirlaMail,edtYeniSifre1,edtYeniSifre2;
+    private String yeniSifre1,yeniSifre2;
+    //Şifre Sıfırlama değişkenleri
+    private Button  sifreSifirlaBtn,sifreSifirlaOnayla;
+    private Dialog resetPassDialog;
+    LinearLayout MailLayout,SifreLayout;
 
 
 
@@ -109,11 +129,107 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        textSifre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetPass();
+            }
+        });
         return view;
     }
 
 
 
+    public void resetPass(){
+        //Dialog oluşturuluyor.
+        resetPassDialog=new Dialog(view.getContext());
+        WindowManager.LayoutParams params=new WindowManager.LayoutParams();
+        params.copyFrom(resetPassDialog.getWindow().getAttributes());
+        params.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        params.height=WindowManager.LayoutParams.WRAP_CONTENT;
+        resetPassDialog.setCancelable(false);
+        resetPassDialog.setContentView(R.layout.layout_sifre_yenile);
+        //Dialog oluşturuldu.
+
+        //Veriler çekiliyor.
+        //Mail Bölümü
+        ImageView imgSifreCikis=(ImageView)resetPassDialog.findViewById(R.id.sifre_sifirla_SifreDialogKapat);
+        sifreSifirlaBtn=(Button)resetPassDialog.findViewById(R.id.layout_sifre_sifirla_ButtonSifreSifirla);
+        etxtsifreSifirlaMail=(EditText)resetPassDialog.findViewById(R.id.layout_sifre_sifirla_EditTxtMail);
+        MailLayout=(LinearLayout)resetPassDialog.findViewById(R.id.layout_sifre_sifirla_mailLinear);
+        //Şifre Bölümü
+        ImageView imgSifreCikis2=(ImageView)resetPassDialog.findViewById(R.id.sifre_sifirla_YeniSifreDialogKapat);
+        edtYeniSifre1=(EditText)resetPassDialog.findViewById(R.id.layout_sifre_sifirla_YeniSifre1);
+        edtYeniSifre2=(EditText)resetPassDialog.findViewById(R.id.layout_sifre_sifirla_YeniSifre2);
+        SifreLayout=(LinearLayout)resetPassDialog.findViewById(R.id.layout_sifre_sifirla_YeniSifreLinear);
+        sifreSifirlaOnayla=(Button)resetPassDialog.findViewById(R.id.layout_sifre_sifirla_onaylaSifre);
+        //Veriler Çekildi.
+
+        //Dialogda bulunan kapatma ImageView yakalanma olayı.
+        imgSifreCikis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetPassDialog.dismiss();
+            }
+        });
+        imgSifreCikis2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetPassDialog.dismiss();
+            }
+        });
+        //Sifre Gönderme olayı başlıyor.
+        sifreSifirlaBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!TextUtils.isEmpty(etxtsifreSifirlaMail.getText().toString().trim()))
+                {
+                    DataBaseHelper dataBaseHelper=new DataBaseHelper(resetPassDialog.getContext());
+                    if(dataBaseHelper.checkMail(etxtsifreSifirlaMail.getText().toString()))
+                    {
+                        MailLayout.setVisibility(View.GONE);
+                        SifreLayout.setVisibility(View.VISIBLE);
+                    }else{
+                        Toast.makeText(view.getContext(),"Mail adresi hatalı.",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+        //Şifre gönderme olayı bitiyor.
+        sifreSifirlaOnayla.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                yeniSifre1=edtYeniSifre1.getText().toString();
+                yeniSifre2=edtYeniSifre2.getText().toString();
+                if(!TextUtils.isEmpty(yeniSifre1) && yeniSifre1.length() >= 8){
+                    if(!TextUtils.isEmpty(yeniSifre2) && yeniSifre2.length() >=8 ){
+                        if(yeniSifre1.equals(yeniSifre2)){
+                            boolean sonuc;
+                            DataBaseHelper dataBaseHelper=new DataBaseHelper(view.getContext());
+                            sonuc=dataBaseHelper.sifreSifirla(etxtsifreSifirlaMail.getText().toString(),yeniSifre1);
+                            if(sonuc){
+                                Toast.makeText(view.getContext(),"İşlem başarılı.",Toast.LENGTH_SHORT).show();
+                                resetPassDialog.dismiss();
+                            }else
+                                Toast.makeText(view.getContext(),"İşlem başarısız.",Toast.LENGTH_SHORT).show();
+
+                        }else
+                            Toast.makeText(view.getContext(),"Şifreler uyuşmuyor.",Toast.LENGTH_SHORT).show();
+                    }else
+                        Toast.makeText(view.getContext(),"Yeni şifre tekrar boş olamaz.",Toast.LENGTH_SHORT).show();
+                }else
+                    Toast.makeText(view.getContext(),"Yeni şifre boş olamaz.",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        //Dialog ekrana getiriyor.
+        resetPassDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        resetPassDialog.getWindow().setAttributes(params);
+        resetPassDialog.show();
+        //Dialog ekrana verildi.
+    }
     //Profil fragment'in xml sayfasındaki elementler bağlanıyor.
     public void init()
     {
@@ -125,7 +241,7 @@ public class ProfileFragment extends Fragment {
         textDogumTarihi=(TextView)view.findViewById(R.id.fragment_profile_dogumTarihi);
         imgResim=(ImageView)view.findViewById(R.id.fragment_profile_ImageResim);
         imgEditbtn=(ImageView)view.findViewById(R.id.fragment_profile_imgEdit);
-
+        textSifre=(TextView) view.findViewById(R.id.fragment_profile_sifreSifirla);
         //Şifre sonra eklenecektir.
 
     }
